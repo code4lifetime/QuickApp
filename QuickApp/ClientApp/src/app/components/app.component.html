@@ -35,6 +35,7 @@
           </li>
         </ul>
         <span class="app-component navbar-text notifications-popup">{{'app.Welcome' | translate}}</span>
+
         <a class="app-component nav-link user-name d-inline-block px-1" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus">
           {{userName}}
           <span *ngIf="newNotificationCount > 0" class="badge badge-pill badge-secondary">{{newNotificationCount}}</span>

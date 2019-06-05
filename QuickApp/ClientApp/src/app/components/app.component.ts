@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   shouldShowLoginModal: boolean;
   removePrebootScreen: boolean;
   newNotificationCount = 0;
-  appTitle = 'QuickApp';
+  appTitle = 'AngularCore App';
   appLogo = require('../assets/images/logo-white.png');
 
   stickyToasties: number[] = [];
