@@ -30,22 +30,22 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     allRoles: Role[] = [];
 
 
-    @ViewChild('indexTemplate')
+    @ViewChild('indexTemplate', {static: false})
     indexTemplate: TemplateRef<any>;
 
-    @ViewChild('userNameTemplate')
+    @ViewChild('userNameTemplate', {static: false})
     userNameTemplate: TemplateRef<any>;
 
-    @ViewChild('rolesTemplate')
+    @ViewChild('rolesTemplate', {static: false})
     rolesTemplate: TemplateRef<any>;
 
-    @ViewChild('actionsTemplate')
+    @ViewChild('actionsTemplate', {static: false})
     actionsTemplate: TemplateRef<any>;
 
-    @ViewChild('editorModal')
+    @ViewChild('editorModal', {static: false})
     editorModal: ModalDirective;
 
-    @ViewChild('userEditor')
+    @ViewChild('userEditor', {static: false})
     userEditor: UserInfoComponent;
 
     constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService) {

@@ -77,8 +77,10 @@ export class ConfigurationService {
     this._showDashboardNotifications = value;
     this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
   }
+
   get showDashboardNotifications() {
-    return this._showDashboardNotifications != null ? this._showDashboardNotifications : ConfigurationService.defaultShowDashboardNotifications;
+    return this._showDashboardNotifications != null ? this._showDashboardNotifications :
+     ConfigurationService.defaultShowDashboardNotifications;
   }
 
 

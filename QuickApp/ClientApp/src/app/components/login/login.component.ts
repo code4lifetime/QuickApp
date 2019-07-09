@@ -1,7 +1,3 @@
-// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
 
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
@@ -19,7 +15,7 @@ import { UserLogin } from '../../models/user-login.model';
 
 export class LoginComponent implements OnInit, OnDestroy {
 
-  userLogin = new UserLogin("superadmin","Superadmin@123");
+  userLogin = new UserLogin('superadmin', 'Superadmin@123');
   isLoading = false;
   formResetToggle = true;
   modalClosedCallback: () => void;
@@ -35,7 +31,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-debugger;
+// tslint:disable-next-line: no-debugger
+    debugger;
     this.userLogin.rememberMe = this.authService.rememberMe;
 
     if (this.getShouldRedirect()) {

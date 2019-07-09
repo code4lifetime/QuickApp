@@ -1,7 +1,4 @@
-// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
+
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
@@ -56,6 +53,7 @@ export class AuthService {
   }
 
   redirectLoginUser() {
+    debugger;
     const redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
     this.loginRedirectUrl = null;
 

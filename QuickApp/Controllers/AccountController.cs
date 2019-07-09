@@ -19,6 +19,7 @@ using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using DAL.Core;
 using IdentityServer4.AccessTokenValidation;
+using EmailClient.Services;
 
 namespace QuickApp.Controllers
 {
@@ -31,10 +32,14 @@ namespace QuickApp.Controllers
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService)
+        private readonly IEmailClientSender emailClientSender;
+
+        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService, IEmailClientSender emailClientSender)
         {
             _accountManager = accountManager;
             _authorizationService = authorizationService;
+
+            this.emailClientSender = emailClientSender;
         }
 
 
@@ -54,6 +59,7 @@ namespace QuickApp.Controllers
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, id, AccountManagementOperations.Read)).Succeeded)
                 return new ChallengeResult();
+           
 
 
             UserViewModel userVM = await GetUserViewModelHelper(id);

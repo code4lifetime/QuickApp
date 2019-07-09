@@ -8,6 +8,9 @@ using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
+using EmailClient;
+using EmailClient.Services;
+using Entities;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +74,10 @@ namespace QuickApp
                 //    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 //    //options.Lockout.MaxFailedAccessAttempts = 10;
             });
+
+            var emailSettings = Configuration.GetSection("EmailSettings");
+            services.Configure<EmailSettings>(emailSettings);
+            services.AddTransient<IEmailClientSender, EmailClientSender>();
 
 
             // Adds IdentityServer.

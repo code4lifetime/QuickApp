@@ -16,6 +16,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
+import { MaterialModule } from './material.module';
 import { AppErrorHandler } from './app-error.handler';
 import { AppTitleService } from './services/app-title.service';
 import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
@@ -58,6 +59,8 @@ import { UserPreferencesComponent } from './components/controls/user-preferences
 import { UsersManagementComponent } from './components/controls/users-management.component';
 import { RolesManagementComponent } from './components/controls/roles-management.component';
 import { RoleEditorComponent } from './components/controls/role-editor.component';
+import { NumericFieldDirective,
+  CharacterFieldDirective, AlfaNumericFieldDirective, AmountFieldDirective } from './directives/validation.directive';
 
 
 
@@ -69,11 +72,13 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    // MaterialModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useClass: TranslateLanguageLoader
-      }
+      },
+
     }),
     NgxDatatableModule,
     ToastaModule.forRoot(),
@@ -106,6 +111,10 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     BootstrapToggleDirective,
     BootstrapSelectDirective,
     BootstrapDatepickerDirective,
+    NumericFieldDirective,
+    CharacterFieldDirective,
+    AlfaNumericFieldDirective,
+    AmountFieldDirective,
     GroupByPipe
   ],
   providers: [

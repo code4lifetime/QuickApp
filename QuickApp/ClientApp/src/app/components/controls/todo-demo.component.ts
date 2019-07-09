@@ -64,22 +64,22 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     verticalScrollbar = false;
 
 
-    @ViewChild('statusHeaderTemplate')
+    @ViewChild('statusHeaderTemplate', {static: false})
     statusHeaderTemplate: TemplateRef<any>;
 
-    @ViewChild('statusTemplate')
+    @ViewChild('statusTemplate', {static: false})
     statusTemplate: TemplateRef<any>;
 
-    @ViewChild('nameTemplate')
+    @ViewChild('nameTemplate', {static: false})
     nameTemplate: TemplateRef<any>;
 
-    @ViewChild('descriptionTemplate')
+    @ViewChild('descriptionTemplate', {static: false})
     descriptionTemplate: TemplateRef<any>;
 
-    @ViewChild('actionsTemplate')
+    @ViewChild('actionsTemplate', {static: false})
     actionsTemplate: TemplateRef<any>;
 
-    @ViewChild('editorModal')
+    @ViewChild('editorModal', {static: false})
     editorModal: ModalDirective;
 
 

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using Microsoft.Extensions.Options;
+using Entities;
 
 namespace QuickApp.Helpers
 {
