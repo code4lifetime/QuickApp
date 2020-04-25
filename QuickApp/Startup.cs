@@ -4,10 +4,7 @@
 // =============================
 
 using AutoMapper;
-using DAL;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using DAL.Models;
+
 using EmailClient;
 using EmailClient.Services;
 using Entities;
@@ -29,7 +26,14 @@ using QuickApp.ViewModels;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
-using AppPermissions = DAL.Core.ApplicationPermissions;
+using AppPermissions = QuickApp.SQLDAL.Core.ApplicationPermissions;
+using MongoDbDAL;
+using Microsoft.Extensions.Options;
+using QuickApp.SQLDAL.Models;
+using QuickApp.SQLDAL.Core;
+using QuickApp.SQLDAL.Repository;
+using QuickApp.SQLDAL.Core.Interfaces;
+using System.Reflection;
 
 namespace QuickApp
 {
@@ -49,13 +53,27 @@ namespace QuickApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            #region SqlServer Connection
+            services.AddDbContext<QuickappContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp")));
 
             // add identity
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<QuickappContext>()
                 .AddDefaultTokenProviders();
+            #endregion
+
+            #region MongoDb Connection
+            services.Configure<QuickAppDatabaseSettings>(
+            Configuration.GetSection(nameof(QuickAppDatabaseSettings)));
+
+            services.AddSingleton<IQuickAppDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<QuickAppDatabaseSettings>>().Value);
+
+
+
+            services.AddSingleton<EmailService>();
+            #endregion
 
             // Configure Identity options and password complexity here
             services.Configure<IdentityOptions>(options =>
@@ -79,9 +97,17 @@ namespace QuickApp
             services.Configure<EmailSettings>(emailSettings);
             services.AddTransient<IEmailClientSender, EmailClientSender>();
 
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+
+
+
+
+
 
             // Adds IdentityServer.
             services.AddIdentityServer()
+
                 // The AddDeveloperSigningCredential extension creates temporary key material for signing tokens.
                 // This might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
                 // See http://docs.identityserver.io/en/release/topics/crypto.html#refcrypto for more information.
@@ -94,6 +120,29 @@ namespace QuickApp
                 .AddInMemoryClients(IdentityServerConfig.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<ProfileService>();
+
+
+
+            //          services.AddIdentityServer()
+            //// The AddDeveloperSigningCredential extension creates temporary key material for signing tokens.
+            //// This might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
+            //// See http://docs.identityserver.io/en/release/topics/crypto.html#refcrypto for more information.
+            //.AddDeveloperSigningCredential()
+            //.AddConfigurationStore(options =>
+            //{
+            //    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sql => sql.MigrationsAssembly(migrationsAssembly));
+            //})
+            //.AddOperationalStore(options =>
+            //{
+            //    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], sql => sql.MigrationsAssembly(migrationsAssembly));
+
+            //    // this enables automatic token cleanup. this is optional. 
+            //    options.EnableTokenCleanup = true;
+            //    options.TokenCleanupInterval = 30;
+            //})
+            //.AddAspNetIdentity<ApplicationUser>()
+            //.AddProfileService<ProfileService>();
+
 
 
             var applicationUrl = Configuration["ApplicationUrl"].TrimEnd('/');
@@ -125,7 +174,9 @@ namespace QuickApp
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //.AddJsonOptions(options => options.UseMemberCasing())
 
             // The port to use for https redirection in production
             if (!_env.IsDevelopment() && !string.IsNullOrWhiteSpace(Configuration["HttpsRedirectionPort"]))
@@ -185,7 +236,7 @@ namespace QuickApp
 
 
             // Repositories
-            services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
+            // services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
             // Auth Handlers
@@ -254,12 +305,12 @@ namespace QuickApp
 
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
-                }
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseAngularCliServer(npmScript: "start");
+                //    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
+                //    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
+                //}
             });
         }
     }

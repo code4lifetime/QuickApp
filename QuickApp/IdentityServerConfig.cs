@@ -5,10 +5,11 @@
 
 using System;
 using System.Collections.Generic;
-using DAL.Core;
+
 using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using QuickApp.SQLDAL.Core;
 
 namespace QuickApp
 {

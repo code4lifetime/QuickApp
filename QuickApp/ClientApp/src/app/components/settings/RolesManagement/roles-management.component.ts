@@ -6,13 +6,14 @@
 import { Component, OnInit, AfterViewInit, TemplateRef, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
-import { AppTranslationService } from '../../services/app-translation.service';
-import { AccountService } from '../../services/account.service';
-import { Utilities } from '../../services/utilities';
-import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
-import { RoleEditorComponent } from './role-editor.component';
+import { AlertService, DialogType, MessageSeverity } from 'src/app/services/alert.service';
+import { AppTranslationService } from 'src/app/services/app-translation.service';
+import { AccountService } from 'src/app/services/account.service';
+import { Utilities } from 'src/app/services/utilities';
+import { Role } from 'src/app/models/role.model';
+import { Permission } from 'src/app/models/permission.model';
+import { RoleEditorComponent } from './RoleEditor/role-editor.component';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 
 @Component({
@@ -21,6 +22,15 @@ import { RoleEditorComponent } from './role-editor.component';
     styleUrls: ['./roles-management.component.scss']
 })
 export class RolesManagementComponent implements OnInit, AfterViewInit {
+
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = [];
+  @ViewChild(MatSort , {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator , {static: false}) paginator: MatPaginator;
+
+
+
+
     columns: any[] = [];
     rows: Role[] = [];
     rowsCache: Role[] = [];
@@ -52,13 +62,20 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
         const gT = (key: string) => this.translationService.getTranslation(key);
 
-        this.columns = [
-            { prop: 'index', name: '#', width: 50, cellTemplate: this.indexTemplate, canAutoResize: false },
-            { prop: 'name', name: gT('roles.management.Name'), width: 180 },
-            { prop: 'description', name: gT('roles.management.Description'), width: 320 },
-            { prop: 'usersCount', name: gT('roles.management.Users'), width: 50 },
-            { name: '', width: 160, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
-        ];
+        this.displayedColumns = ['name', 'description', 'usersCount'];
+        this.displayedColumns.push('actions');
+        // if (this.canManageRoles) {
+        //   this.displayedColumns.push('actions');
+        //   }
+
+
+        // this.columns = [
+        //     { prop: 'index', name: '#', width: 50, cellTemplate: this.indexTemplate, canAutoResize: false },
+        //     { prop: 'name', name: gT('roles.management.Name'), width: 180 },
+        //     { prop: 'description', name: gT('roles.management.Description'), width: 320 },
+        //     { prop: 'usersCount', name: gT('roles.management.Users'), width: 50 },
+        //     { name: '', width: 160, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+        // ];
 
         this.loadData();
     }
@@ -141,6 +158,10 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
                 this.rowsCache = [...roles];
                 this.rows = roles;
 
+                this.listData = new MatTableDataSource(roles);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+
                 this.allPermissions = permissions;
             },
             error => {
@@ -154,7 +175,8 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
 
     onSearchChanged(value: string) {
-        this.rows = this.rowsCache.filter(r => Utilities.searchArray(value, false, r.name, r.description));
+       // this.rows = this.rowsCache.filter(r => Utilities.searchArray(value, false, r.name, r.description));
+       this.listData.filter = value.toLowerCase();
     }
 
 
@@ -209,6 +231,8 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
     get canManageRoles() {
         return this.accountService.userHasPermission(Permission.manageRolesPermission);
+
     }
+
 
 }

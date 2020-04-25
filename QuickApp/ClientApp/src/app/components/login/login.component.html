@@ -14,7 +14,7 @@
                           (!username.valid && showErrorAlert('Username is required', 'Please enter a valid username'));
                           (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
             <div class="form-group row has-feedback-icon">
-              <label class="col-form-label col-md-3" for="login-username">Username:</label>
+              <label class="col-form-label col-md-3" for="login-username">Username :</label>
               <div class="col-md-9">
                 <input type="text" id="login-username" name="username" placeholder="Enter username" autocomplete="username" class="form-control" [ngClass]="{'is-valid': f.submitted && username.valid, 'is-invalid' : f.submitted && !username.valid}"
                        [(ngModel)]="userLogin.userName" #username="ngModel" required />

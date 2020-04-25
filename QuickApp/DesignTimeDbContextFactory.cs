@@ -8,17 +8,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using DAL;
+
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using QuickApp.SQLDAL.Models;
 
 namespace QuickApp
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<QuickappContext>
     {
-        public ApplicationDbContext CreateDbContext(string[] args)
+        public QuickappContext CreateDbContext(string[] args)
         {
             Mapper.Reset();
 
@@ -28,11 +29,11 @@ namespace QuickApp
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .Build();
 
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var builder = new DbContextOptionsBuilder<QuickappContext>();
 
             builder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
 
-            return new ApplicationDbContext(builder.Options);
+            return new QuickappContext(builder.Options);
         }
     }
 }

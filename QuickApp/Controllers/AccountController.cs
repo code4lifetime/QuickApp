@@ -12,14 +12,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using QuickApp.ViewModels;
 using AutoMapper;
-using DAL.Models;
-using DAL.Core.Interfaces;
+
 using QuickApp.Authorization;
 using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
-using DAL.Core;
+
 using IdentityServer4.AccessTokenValidation;
 using EmailClient.Services;
+using QuickApp.SQLDAL.Core.Interfaces;
+using QuickApp.SQLDAL.Models;
+using QuickApp.SQLDAL.Core;
 
 namespace QuickApp.Controllers
 {

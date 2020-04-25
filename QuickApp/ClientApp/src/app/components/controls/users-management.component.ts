@@ -14,11 +14,11 @@ import { UserInfoComponent } from './user-info.component';
 
 
 @Component({
-    selector: 'users-management',
+    selector: 'users-management-old',
     templateUrl: './users-management.component.html',
     styleUrls: ['./users-management.component.scss']
 })
-export class UsersManagementComponent implements OnInit, AfterViewInit {
+export class UsersManagementOldComponent implements OnInit, AfterViewInit {
     columns: any[] = [];
     rows: User[] = [];
     rowsCache: User[] = [];

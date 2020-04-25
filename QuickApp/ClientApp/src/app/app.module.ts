@@ -54,11 +54,14 @@ import { TodoDemoComponent } from './components/controls/todo-demo.component';
 import { StatisticsDemoComponent } from './components/controls/statistics-demo.component';
 import { NotificationsViewerComponent } from './components/controls/notifications-viewer.component';
 import { SearchBoxComponent } from './components/controls/search-box.component';
-import { UserInfoComponent } from './components/controls/user-info.component';
+import { UserInfoComponent } from './components/settings/UsersManagement/UserInfo/user-info.component';
 import { UserPreferencesComponent } from './components/controls/user-preferences.component';
-import { UsersManagementComponent } from './components/controls/users-management.component';
-import { RolesManagementComponent } from './components/controls/roles-management.component';
-import { RoleEditorComponent } from './components/controls/role-editor.component';
+import { UsersManagementOldComponent } from './components/controls/users-management.component';
+
+import { UsersManagementComponent } from './components/settings/UsersManagement/users-management-new.component';
+import { RolesManagementComponent } from './components/settings/RolesManagement/roles-management.component';
+import { RoleEditorComponent } from './components/settings/RolesManagement/RoleEditor/role-editor.component';
+
 import { NumericFieldDirective,
   CharacterFieldDirective, AlfaNumericFieldDirective, AmountFieldDirective } from './directives/validation.directive';
 
@@ -72,7 +75,7 @@ import { NumericFieldDirective,
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    // MaterialModule,
+   MaterialModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -97,7 +100,8 @@ import { NumericFieldDirective,
     ProductsComponent,
     OrdersComponent,
     SettingsComponent,
-    UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
+    UsersManagementComponent,
+    UsersManagementOldComponent, UserInfoComponent, UserPreferencesComponent,
     RolesManagementComponent, RoleEditorComponent,
     AboutComponent,
     NotFoundComponent,

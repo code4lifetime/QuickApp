@@ -1,5 +1,14 @@
-﻿<div class="icon-addon addon-sm">
+﻿<!-- <div class="icon-addon addon-sm">
     <label for="searchInput" title="Search"><i class="fa fa-search left-icon search-icon"></i></label>
     <input id="searchInput" #searchInput type="search" ngModel="" (ngModelChange)="onValueChange($event)" [attr.placeholder]="placeholder" class="form-control left-icon right-icon">
     <a *ngIf="searchInput.value" href="javascript:;" title="Clear" (click)="clear()" class="fa fa-times-circle clear-input right-icon"></a>
-</div>
+</div> -->
+
+    <mat-form-field class="example-full-width" floatLabel="never" style="width: 100%">
+        <span matPrefix> <mat-icon>search</mat-icon></span>
+        <input matInput id="searchInput" type="search" [(ngModel)]="searchKey" (ngModelChange)="onValueChange($event)" [attr.placeholder]="placeholder" autocomplete="off">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="clear()">
+          <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+

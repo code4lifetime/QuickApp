@@ -8,11 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DAL;
+
 using QuickApp.ViewModels;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using QuickApp.Helpers;
+using QuickApp.SQLDAL.Repository;
 
 namespace QuickApp.Controllers
 {
@@ -34,12 +35,12 @@ namespace QuickApp.Controllers
 
 
         // GET: api/values
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var allCustomers = _unitOfWork.Customers.GetAllCustomersData();
-            return Ok(Mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
-        }
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    var allCustomers = _unitOfWork.Customers.GetAllCustomersData();
+        //    return Ok(Mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
+        //}
 
 
 

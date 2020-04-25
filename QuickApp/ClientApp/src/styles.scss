@@ -7,6 +7,8 @@
 @import 'app/assets/styles/ngx-datatable';
 @import 'app/assets/styles/styles-vendor.css';
 
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body, html {
   height: 100%
 }
@@ -14,6 +16,31 @@ body, html {
 .reduced-font {
   font-size: 0.875rem;
 }
+
+.hide{
+  display: none;
+}
+
+.mat-cell, .mat-footer-cell {
+  font-size: 12px;
+}
+
+.mat-header-row {
+  min-height: 42px;
+  background-color: #7292c2;
+}
+
+.mat-cell {
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mat-footer-row, mat-row {
+  min-height: 38px;
+}
+
+
 
 .has-feedback-icon {
   position: relative;

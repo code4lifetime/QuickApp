@@ -4,9 +4,10 @@
 // =============================
 
 using AutoMapper;
-using DAL.Core;
-using DAL.Models;
+
 using Microsoft.AspNetCore.Identity;
+using QuickApp.SQLDAL.Core;
+using QuickApp.SQLDAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,14 +50,14 @@ namespace QuickApp.ViewModels
             CreateMap<IdentityRoleClaim<string>, PermissionViewModel>()
                 .ConvertUsing(s => Mapper.Map<PermissionViewModel>(ApplicationPermissions.GetPermissionByValue(s.ClaimValue)));
 
-            CreateMap<Customer, CustomerViewModel>()
-                .ReverseMap();
+            //CreateMap<Customer, CustomerViewModel>()
+            //    .ReverseMap();
 
-            CreateMap<Product, ProductViewModel>()
-                .ReverseMap();
+            //CreateMap<Product, ProductViewModel>()
+            //    .ReverseMap();
 
-            CreateMap<Order, OrderViewModel>()
-                .ReverseMap();
+            //CreateMap<Order, OrderViewModel>()
+            //    .ReverseMap();
         }
     }
 }

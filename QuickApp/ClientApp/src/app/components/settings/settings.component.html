@@ -4,6 +4,9 @@
     </header>
 
     <div [@fadeInOut]>
+
+
+
         <div class="d-sm-flex flex-row">
             <ul bootstrapTab #tab="bootstrap-tab" (showBSTab)="onShowTab($event)" class="nav nav-tabs nav-tabs--vertical nav-tabs--left" role="navigation">
                 <li class="nav-item">
@@ -26,6 +29,7 @@
                         <i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}
                     </a>
                 </li>
+
             </ul>
             <div class="tab-content w-100">
                 <div class="tab-pane show active" id="profile" role="tabpanel">
@@ -44,9 +48,10 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="users" role="tabpanel">
-                    <h4>{{'settings.header.UsersManagements' | translate}}</h4>
+                    <h4>{{'settings.header.UsersManagements' | translate}} </h4>
                     <hr class="separator-hr" />
                     <div [@fadeInOut] *ngIf="canViewUsers && isUsersActivated" class="content-container pl-lg-1">
+                        <!-- <users-management></users-management> -->
                         <users-management></users-management>
                     </div>
                 </div>
@@ -57,6 +62,8 @@
                         <roles-management></roles-management>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

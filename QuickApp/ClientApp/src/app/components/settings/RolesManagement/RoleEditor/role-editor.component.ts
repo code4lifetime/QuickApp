@@ -5,10 +5,10 @@
 
 import { Component, ViewChild } from '@angular/core';
 
-import { AlertService, MessageSeverity } from '../../services/alert.service';
-import { AccountService } from '../../services/account.service';
-import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { AlertService, MessageSeverity } from 'src/app/services/alert.service';
+import { AccountService } from 'src/app/services/account.service';
+import { Role } from 'src/app/models/role.model';
+import { Permission } from 'src/app/models/permission.model';
 
 
 @Component({

@@ -1,0 +1,128 @@
+<div>
+    <div class="row control-box">
+        <div class="col-lg-8">
+          <div class="form-group">
+            <search-box (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}"></search-box>
+          </div>
+        </div>
+        <div class="col-lg-4 pr-lg-5">
+          <ul class="nav flex-column flex-lg-row justify-content-end">
+            <li *ngIf="canManageUsers && canAssignRoles" class="nav-item toolbaritem">
+                <button mat-raised-button (click)="newUser(row)">
+                    <mat-icon>add</mat-icon>{{'users.management.NewUser' | translate}}
+                  </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mat-elevation-z8">
+          <mat-table [dataSource]="listData"  matSort>
+              <ng-container matColumnDef="jobTitle">
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header>Title</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.jobTitle}}</mat-cell>
+                </ng-container>
+
+            <ng-container matColumnDef="userName">
+              <mat-header-cell *matHeaderCellDef  mat-sort-header>User Name</mat-header-cell>
+              <mat-cell matTooltip="{{element.userName}}" *matCellDef="let element">{{element.userName}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="fullName">
+              <mat-header-cell *matHeaderCellDef  mat-sort-header>Full Name</mat-header-cell>
+              <mat-cell matTooltip="{{element.fullName}}" *matCellDef="let element">{{element.fullName}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="email">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+              <mat-cell matTooltip="{{element.email}}" *matCellDef="let element">{{element.email}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="roles">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Roles</mat-header-cell>
+              <mat-cell matTooltip="{{element.roles}}" *matCellDef="let element">{{element.roles}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="phoneNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</mat-header-cell>
+              <mat-cell matTooltip="{{element.phoneNumber}}" *matCellDef="let element">{{element.phoneNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions" >
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <button matTooltip="Edit" mat-icon-button (click)="editUser(row)"><mat-icon>launch</mat-icon></button>
+                <button matTooltip="Delete" mat-icon-button color="warn" (click)="deleteUser(row)"><mat-icon>delete_outline</mat-icon></button>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="loading">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                Loading data...
+              </mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+              <mat-footer-cell *matFooterCellDef colspan="6">
+                No data.
+              </mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        </div>
+
+
+
+
+
+
+<!--
+  <ngx-datatable class="material colored-header sm table table-striped table-hover"
+                 [loadingIndicator]="loadingIndicator"
+                 [rows]="rows"
+                 [rowHeight]="35"
+                 [headerHeight]="35"
+                 [footerHeight]="35"
+                 [columns]="columns"
+                 [scrollbarV]="true"
+                 [columnMode]="'force'">
+  </ngx-datatable> -->
+
+  <!-- <ng-template #indexTemplate let-value="value">
+    <strong>{{value}}</strong>
+  </ng-template> -->
+
+  <!-- <ng-template #userNameTemplate let-row="row" let-value="value">
+    <span [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
+      <i *ngIf="row.isLockedOut" class="fa fa-exclamation-triangle"> </i>
+      <i *ngIf="!row.isEnabled" class="fa fa-exclamation"> </i>
+      {{value}}
+    </span>
+  </ng-template> -->
+
+  <!-- <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
+    <span class="user-role badge badge-pill badge-secondary" *ngFor="let role of value">{{role}}</span>
+  </ng-template> -->
+
+  <!-- <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
+    <div *ngIf="canManageUsers">
+      <a class="btn btn-link btn-sm" href="javascript:;" (click)="editUser(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>|
+      <a class="btn btn-link btn-sm" href="javascript:;" (click)="deleteUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
+    </div>
+  </ng-template> -->
+
+
+  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 *ngIf="!editingUserName" class="modal-title float-left"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
+          <h4 *ngIf="editingUserName" class="modal-title float-left"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
+          <button type="button" class="close float-right" title="Close" (click)="editorModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <user-info #userEditor [isGeneralEditor]="true"></user-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

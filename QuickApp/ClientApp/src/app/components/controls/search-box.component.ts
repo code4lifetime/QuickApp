@@ -7,6 +7,7 @@ import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@
     styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent {
+    searchKey: string;
 
     @Input()
     placeholder = 'Search...';
@@ -14,8 +15,8 @@ export class SearchBoxComponent {
     @Output()
     searchChange = new EventEmitter<string>();
 
-    @ViewChild('searchInput', {static: false})
-    searchInput: ElementRef;
+    // @ViewChild('searchInput', {static: false})
+    // searchInput: ElementRef;
 
 
     onValueChange(value: string) {
@@ -24,7 +25,8 @@ export class SearchBoxComponent {
 
 
     clear() {
-        this.searchInput.nativeElement.value = '';
-        this.onValueChange(this.searchInput.nativeElement.value);
+
+      this.searchKey = "";
+        this.onValueChange(this.searchKey);
     }
 }

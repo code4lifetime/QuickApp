@@ -14,9 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailClient", "EmailClient\EmailClient.csproj", "{FD9F3C18-08F1-46C7-BEE8-ABB5C6C90EF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailClient", "EmailClient\EmailClient.csproj", "{FD9F3C18-08F1-46C7-BEE8-ABB5C6C90EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C2C92602-5743-416E-AFBC-D6EA74407EBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{C2C92602-5743-416E-AFBC-D6EA74407EBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDbDAL", "MongoDbDAL\MongoDbDAL.csproj", "{2FAC3C64-4774-44E1-88CE-BFA8D7F92F86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp.SQLDAL", "QuickApp.SQLDAL\QuickApp.SQLDAL.csproj", "{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickApp.Business", "QuickApp.Business\QuickApp.Business.csproj", "{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +46,18 @@ Global
 		{C2C92602-5743-416E-AFBC-D6EA74407EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2C92602-5743-416E-AFBC-D6EA74407EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2C92602-5743-416E-AFBC-D6EA74407EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FAC3C64-4774-44E1-88CE-BFA8D7F92F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FAC3C64-4774-44E1-88CE-BFA8D7F92F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FAC3C64-4774-44E1-88CE-BFA8D7F92F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FAC3C64-4774-44E1-88CE-BFA8D7F92F86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
