@@ -11,7 +11,7 @@ import { ConfigurationService } from './configuration.service';
 export class EndpointFactory {
     static readonly apiVersion: string = '1';
 
-    private readonly _loginUrl: string = '/connect/token';
+    private readonly _loginUrl: string = 'connect/token';
 
     private get loginUrl() { return this.configurations.tokenUrl + this._loginUrl; }
 

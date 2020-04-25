@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDbDAL", "MongoDbDAL\Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp.SQLDAL", "QuickApp.SQLDAL\QuickApp.SQLDAL.csproj", "{CD61C090-AA8B-4876-91B2-BFB4AFDA4E60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickApp.Business", "QuickApp.Business\QuickApp.Business.csproj", "{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp.Business", "QuickApp.Business\QuickApp.Business.csproj", "{D3BE8467-57EA-4F1A-BE55-5AE704FA4810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

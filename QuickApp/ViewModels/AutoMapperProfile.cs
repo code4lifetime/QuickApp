@@ -6,8 +6,8 @@
 using AutoMapper;
 
 using Microsoft.AspNetCore.Identity;
-using QuickApp.SQLDAL.Core;
-using QuickApp.SQLDAL.Models;
+using DAL.Core;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,7 @@ namespace QuickApp.ViewModels
 {
     public class AutoMapperProfile : Profile
     {
+        private readonly IMapper _mapper;
         public AutoMapperProfile()
         {
             CreateMap<ApplicationUser, UserViewModel>()
@@ -48,7 +49,7 @@ namespace QuickApp.ViewModels
                 .ReverseMap();
 
             CreateMap<IdentityRoleClaim<string>, PermissionViewModel>()
-                .ConvertUsing(s => Mapper.Map<PermissionViewModel>(ApplicationPermissions.GetPermissionByValue(s.ClaimValue)));
+                .ConvertUsing(s => _mapper.Map<PermissionViewModel>(ApplicationPermissions.GetPermissionByValue(s.ClaimValue)));
 
             //CreateMap<Customer, CustomerViewModel>()
             //    .ReverseMap();

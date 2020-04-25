@@ -1,9 +1,9 @@
-﻿
+﻿using DAL;
+using DAL.Models;
 using EmailClient.Models;
 using Entities;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using QuickApp.SQLDAL.Models;
 using System;
 using System.Linq;
 using System.Net.Mail;
@@ -13,17 +13,19 @@ namespace EmailClient.Services
 {
     public class EmailClientSender: IEmailClientSender
     {
+       
         readonly SmtpConfig _config;
         public EmailClientSender()
         {
+           
         }
 
         public EmailClientSender(IOptions<AppSettings> config)
         {
             _config = config.Value.SmtpConfig;
         }
+        
 
-        #region Send Email Async
         public async Task<(bool success, string errorMsg)> SendEmailAsync(EmailModal emailModal)
         {
             
@@ -106,9 +108,9 @@ namespace EmailClient.Services
                 return (false, ex.Message);
             }
         }
-        #endregion
 
-        #region Send Email
+       
+
         public bool SendEmail(EmailModal emailModal)
         {
             MailMessage email = new MailMessage();
@@ -199,7 +201,9 @@ namespace EmailClient.Services
             }
             return isEmailSent;
         }
-        #endregion
+
+
+
 
         #region Save Email in database
         public bool SaveEmail(EmailModal emailModal)

@@ -13,8 +13,8 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
-using QuickApp.SQLDAL.Core;
-using QuickApp.SQLDAL.Models;
+using DAL.Core;
+using DAL.Models;
 
 namespace QuickApp.Authorization
 {

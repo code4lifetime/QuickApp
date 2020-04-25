@@ -1,6 +1,9 @@
 
 using AutoMapper;
-
+using DAL;
+using DAL.Core;
+using DAL.Core.Interfaces;
+using DAL.Models;
 using EmailClient;
 using EmailClient.Services;
 using Entities;
@@ -8,38 +11,28 @@ using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MongoDbDAL;
 using QuickApp.Authorization;
 using QuickApp.Helpers;
 using QuickApp.ViewModels;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.Collections.Generic;
-using AppPermissions = QuickApp.SQLDAL.Core.ApplicationPermissions;
-using MongoDbDAL;
-using Microsoft.Extensions.Options;
-using QuickApp.SQLDAL.Models;
-using QuickApp.SQLDAL.Core;
-using QuickApp.SQLDAL.Repository;
-using QuickApp.SQLDAL.Core.Interfaces;
 using System.Reflection;
+using AppPermissions = QuickApp.SQLDAL.Core.ApplicationPermissions;
 
 namespace QuickApp
 {
     public class Startup
     {
-        private IHostingEnvironment _env { get; }
+        private IWebHostEnvironment _env { get; }
         public IConfiguration Configuration { get; }
 
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _env = env;
             Configuration = configuration;
@@ -50,13 +43,15 @@ namespace QuickApp
         public void ConfigureServices(IServiceCollection services)
         {
             #region SqlServer Connection
-            services.AddDbContext<QuickappContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp")));
 
-            // add identity
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<QuickappContext>()
-                .AddDefaultTokenProviders();
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders();
+
+            // add identity
+           
             #endregion
 
             #region MongoDb Connection
@@ -170,12 +165,12 @@ namespace QuickApp
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
+                
             //.AddJsonOptions(options => options.UseMemberCasing())
 
             // The port to use for https redirection in production
-            if (!_env.IsDevelopment() && !string.IsNullOrWhiteSpace(Configuration["HttpsRedirectionPort"]))
+            if (_env.EnvironmentName=="Development" && !string.IsNullOrWhiteSpace(Configuration["HttpsRedirectionPort"]))
             {
                 services.AddHttpsRedirection(options =>
                 {
@@ -184,10 +179,10 @@ namespace QuickApp
             }
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
 
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
@@ -199,29 +194,27 @@ namespace QuickApp
             //    opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //});
 
+            services.AddSwaggerGen();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
+            //    c.OperationFilter<AuthorizeCheckOperationFilter>();
+            //    c.AddSecurityDefinition("oauth2", new OAuth2Scheme
+            //    {
+            //        Type = "oauth2",
+            //        Flow = "password",
+            //        TokenUrl = $"{applicationUrl}/connect/token",
+            //        Scopes = new Dictionary<string, string>()
+            //        {
+            //            { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
+            //        }
+            //    });
+            //});
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
-                c.OperationFilter<AuthorizeCheckOperationFilter>();
-                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
-                {
-                    Type = "oauth2",
-                    Flow = "password",
-                    TokenUrl = $"{applicationUrl}/connect/token",
-                    Scopes = new Dictionary<string, string>()
-                    {
-                        { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
-                    }
-                });
-            });
-
-
-            Mapper.Initialize(cfg =>
-            {
+            var config = new MapperConfiguration(cfg => {
+               
                 cfg.AddProfile<AutoMapperProfile>();
             });
-
 
             // Configurations
             services.Configure<AppSettings>(Configuration);
@@ -273,7 +266,7 @@ namespace QuickApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+           // app.UseSpaStaticFiles();
             app.UseIdentityServer();
 
 
@@ -286,28 +279,40 @@ namespace QuickApp
                 c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
             });
 
+            //app.UseMvc();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+            //});
 
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+            //    spa.Options.SourcePath = "ClientApp";
 
-                //if (env.IsDevelopment())
-                //{
-                //    spa.UseAngularCliServer(npmScript: "start");
-                //    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
-                //    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
-                //}
-            });
+            //    //if (env.IsDevelopment())
+            //    //{
+            //    //    //spa.UseAngularCliServer(npmScript: "start");
+            //    //    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+            //    //}
+
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //    }
+
+            //    //if (env.IsDevelopment())
+            //    //{
+            //    //    spa.UseAngularCliServer(npmScript: "start");
+            //    //    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
+            //    //    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
+            //    //}
+            //});
         }
     }
 }

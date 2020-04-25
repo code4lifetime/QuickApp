@@ -36,7 +36,7 @@ namespace QuickApp.SQLDAL.Models
 
         public async Task SeedAsync()
         {
-            //await _context.Database.MigrateAsync().ConfigureAwait(false);
+            await _context.Database.MigrateAsync().ConfigureAwait(false);
 
             if (!await _context.Users.AnyAsync())
             {

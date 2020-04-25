@@ -13,7 +13,8 @@ using QuickApp.ViewModels;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using QuickApp.Helpers;
-using QuickApp.SQLDAL.Repository;
+
+using DAL;
 
 namespace QuickApp.Controllers
 {

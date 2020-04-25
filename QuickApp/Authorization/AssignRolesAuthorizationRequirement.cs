@@ -3,9 +3,8 @@
 // www.ebenmonney.com/templates
 // =============================
 
-
+using DAL.Core;
 using Microsoft.AspNetCore.Authorization;
-using QuickApp.SQLDAL.Core;
 using System;
 using System.Linq;
 using System.Security.Claims;

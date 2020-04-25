@@ -23,8 +23,8 @@ namespace QuickApp.SQLDAL.Models
                 return friendlyName;
             }
         }
-
-
+        public string ApplicationUserId { get; set; }
+        
         public string JobTitle { get; set; }
         public string FullName { get; set; }
         public string Configuration { get; set; }

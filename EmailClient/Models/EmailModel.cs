@@ -25,6 +25,8 @@ namespace EmailClient.Models
         public string FromEmailId { get; set; }
         public bool IsActive { get; set; }
         public int StatusId { get; set; }
-       
+        public string SiestaLogoImagePath { get; set; }
+
+        public bool IsLogoRequired { get; set; }
     }
 }
